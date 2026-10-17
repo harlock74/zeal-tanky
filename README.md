@@ -57,6 +57,8 @@ Use ZDE from this project directory. It supplies the Docker build environment:
 zde cmake
 ```
 
+Artwork conversion uses the standard SDK `gif2zeal.py` directly. After editing `tiles.aseprite`, export it from Aseprite as the indexed `assets/tiles.gif`, preserving its palette and tile layout, then run `zde cmake`.
+
 The playable binary is **`bin/ztank`**. Assets are embedded, so send this binary to a friend who already has a compatible Zeal Native Emulator and Zeal OS setup.
 
 To use the normal emulator shell, run `zeal-native` from this project folder, then enter:
@@ -71,9 +73,15 @@ cd bin
 After building, run the gameplay, input, audio and rendering checks:
 
 ```sh
-python3 tools/run_checks.py
+python3 tests/run_checks.py
 ```
 
 ## Reference
 
 The game takes its rule reference from the [Tank Battalion service manual](https://arcarc.xmission.com/PDF_Arcade_Manuals_and_Schematics/Tank_Battalion_Service_Manual_%28Upright%29.pdf) and its visual reference from the [publisher's arcade screenshots](https://www.arcadearchives.com/en/title/aca-298/). Tank Battalion is a Namco game. The prototype artwork is retained in the source library; arcade identity colours and additional animation/effects are applied in the playable assets.
+
+## Editing game settings
+
+The build uses the SDK's GIF/Tiled converters. Fixed gameplay and animation settings live in `src/arena_settings.h` (compact terrain masks, stage names and spawns) and `src/splash_settings.h` (animation/prompt settings). No project metadata generator is required. Tiled objects are reference guides; moving one does not change the corresponding C settings automatically.
+
+Arena collision/layout masks are maintained in C to fit the Z80 memory budget. When changing `assets/arenas.tmx`, update the matching 13x13 terrain table in `src/arena_settings.h`. Splash tile artwork, including lettering, builds directly from Tiled through the SDK.

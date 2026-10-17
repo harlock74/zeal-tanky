@@ -1,52 +1,51 @@
 #include <stdint.h>
 #include "assets.h"
 #include "config.h"
-#include "tiles.generated.h"
 #ifndef HOST_CHECK
 extern uint8_t tiles_start,tiles_end,palette_start,palette_end;
 #else
 extern uint8_t host_rle[32768],host_palette[32];
+extern uint16_t host_rle_size;
 #define tiles_start host_rle[0]
-#define tiles_end host_rle[TILE_PAYLOAD_SIZE]
+#define tiles_end host_rle[host_rle_size]
 #define palette_start host_palette[0]
 #define palette_end host_palette[32]
 #endif
-static uint8_t tile_cache[128],cached_tile=255;
+/* Standard SDK RLE stream; only one decoded 4bpp tile is resident in RAM.
+ * Sequential startup reads reuse the stream cursor; backwards reads rewind. */
+static uint8_t tile_cache[128],cached_tile=255,next_tile;
+static uint16_t next_offset;
+static uint8_t used_tile(uint8_t tile)
+{
+    return tile<16 || tile>=80 || (tile>=16 && tile<=41 && !(tile&6));
+}
 static uint8_t decode_tile(uint8_t tile)
 {
-    uint16_t p,end;uint8_t count,control;uint16_t written=0;
-    if(tile==cached_tile) return 1;
-    cached_tile=255; /* A failed decode must invalidate the partially written cache. */
-    if(tile>=128) return 0;
-    p=tile_offsets[tile];end=tile_offsets[tile+1];
-    if(p>=end)return 0;
-    control=(&tiles_start)[p++];
-    if(control==1) {
-        uint8_t colors,low,high,bits,n;
-        if(end-p!=33)return 0;
-        colors=(&tiles_start)[p++];low=colors>>4;high=colors&15;
-        while(p<end) {
-            bits=(&tiles_start)[p++];
-            for(n=0;n<4;n++) {
-                uint8_t a=(bits&128) ? high : low;bits<<=1;
-                tile_cache[written++]=(a<<4)|((bits&128) ? high : low);bits<<=1;
+    uint16_t p,size=(uint16_t)(&tiles_end-&tiles_start),written;
+    uint8_t count,control,value;
+    if(tile>=128 || !used_tile(tile))return 0;
+    if(tile==cached_tile)return 1;
+    cached_tile=255;
+    if(tile<next_tile){next_tile=0;next_offset=0;}
+    while(next_tile<=tile) {
+        p=next_offset;written=0;
+        while(written<128) {
+            if(p>=size)return 0;
+            control=(&tiles_start)[p++];count=(control&127)+1;
+            if(written+count>128)return 0;
+            if(control&128) {
+                if(p>=size)return 0;
+                value=(&tiles_start)[p++];
+                if(next_tile==tile)while(count--){tile_cache[written++]=value;}
+                else written+=count;
+            } else {
+                if(p+count>size)return 0;
+                if(next_tile==tile)while(count--){tile_cache[written++]=(&tiles_start)[p++];}
+                else {written+=count;p+=count;}
             }
         }
-        cached_tile=tile;return 1;
+        next_offset=p;next_tile++;
     }
-    if(control!=0)return 0;
-    while(p<end && written<128) {
-        control=(&tiles_start)[p++];count=(control&127)+1;
-        if(written+count>128) return 0;
-        if(control&128) {
-            uint8_t value;if(p>=end) return 0;value=(&tiles_start)[p++];
-            while(count--) tile_cache[written++]=value;
-        } else {
-            if(p+count>end) return 0;
-            while(count--) tile_cache[written++]=(&tiles_start)[p++];
-        }
-    }
-    if(written!=128 || p!=end) return 0;
     cached_tile=tile;return 1;
 }
 uint8_t assets_pixel(uint8_t tile,uint8_t x,uint8_t y)
@@ -90,9 +89,9 @@ gfx_error assets_load(gfx_context* ctx)
     }
     other_palette[0]=(&palette_start)[18];other_palette[1]=(&palette_start)[19];
     e=gfx_palette_load(ctx,other_palette,32,16);if(e!=GFX_SUCCESS) return e;
-    cached_tile=255;
+    cached_tile=255;next_tile=0;next_offset=0;
     for(i=0;i<128;i++) {
-        if(tile_offsets[i]==tile_offsets[i+1])continue;
+        if(!used_tile(i))continue;
         if(!decode_tile(i)) return 1;
         o.from_byte=(uint16_t)i*128;
         e=gfx_tileset_load(ctx,tile_cache,128,&o);if(e!=GFX_SUCCESS) return e;
@@ -109,7 +108,7 @@ gfx_error assets_load(gfx_context* ctx)
 #ifndef HOST_CHECK
 void embedded_assets(void) __naked
 {
-    __asm__("_tiles_start:\n.incbin \"generated/tiles.rle\"\n_tiles_end:\n"
+    __asm__("_tiles_start:\n.incbin \"assets/tiles.zts\"\n_tiles_end:\n"
         "_palette_start:\n.incbin \"assets/tiles.ztp\"\n_palette_end:\n");
 }
 #endif

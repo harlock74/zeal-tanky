@@ -2,16 +2,25 @@
 #include "render.h"
 #include "gameplay.h"
 #include <string.h>
-#include "splash.generated.h"
+#include "splash_settings.h"
+
 static uint16_t ticks;
 void splash_render(void)
 {
-    uint8_t i,x,row[40],left=0,tile=8;uint16_t p=0;
+    uint8_t i,x,row[40];
+    const uint8_t* source=tank_splash_map;
+    uint8_t left=0,repeat=0,tile=8;
     render_hide_sprites();render_clear_ui();render_reset();ticks=0;
     for(i=0;i<30;i++) {
         for(x=0;x<40;x++) {
-            if(!left){left=splash_runs[p++];tile=splash_runs[p++];}
-            row[x]=tile;left--;
+            if(!left) {
+                uint8_t control=*source++;
+                left=(control&127)+1;repeat=control&128;
+                if(repeat)tile=*source++;
+            }
+            row[x]=repeat ? tile : *source++;left--;
+            if(x>=SPLASH_HQ_X && x<SPLASH_HQ_X+2 && i>=SPLASH_HQ_Y && i<SPLASH_HQ_Y+2)
+                row[x]=160+(i-SPLASH_HQ_Y)*2+x-SPLASH_HQ_X;
         }
         gfx_tilemap_load(&video,row,40,0,0,i);
     }
@@ -61,3 +70,10 @@ void splash_tick(void)
     }
     render_prepare_sprites();
 }
+
+#ifdef __SDCC
+void embedded_splash_map(void) __naked
+{
+    __asm__("_tank_splash_map:\n.incbin \"assets/splash.ztm\"\n_tank_splash_end:\n");
+}
+#endif

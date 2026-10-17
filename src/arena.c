@@ -3,7 +3,7 @@
 #include "ai.h"
 uint8_t arena_cells[ARENA_W*ARENA_H];
 uint8_t arena_dirty;
-#include "arenas.generated.h"
+#include "arena_settings.h"
 void arena_load(uint8_t index)
 {
     uint16_t i;if(index>=ARENA_COUNT) index=0;

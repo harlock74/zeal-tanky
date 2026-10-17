@@ -24,30 +24,14 @@ if(TANK_PROFILE)
 endif()
 target_link_libraries(${target_name} PUBLIC core zgdk zvb_gfx zvb_sound)
 target_compile_options(${target_name} PRIVATE $<$<COMPILE_LANGUAGE:C>:--opt-code-speed>)
-target_include_directories(${target_name} PRIVATE src ${CMAKE_BINARY_DIR}/generated)
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/arenas.generated.h
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/gen_arenas.py ${CMAKE_SOURCE_DIR}/assets/arenas.tmx ${CMAKE_BINARY_DIR}/generated/arenas.generated.h
-    DEPENDS tools/gen_arenas.py assets/arenas.tmx VERBATIM)
-add_custom_target(${target_name}_arenas DEPENDS ${CMAKE_BINARY_DIR}/generated/arenas.generated.h)
-add_dependencies(${target_name} ${target_name}_arenas)
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/splash.generated.h
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/gen_splash.py ${CMAKE_SOURCE_DIR}/assets/splash.tmx ${CMAKE_BINARY_DIR}/generated/splash.generated.h
-    DEPENDS tools/gen_splash.py assets/splash.tmx assets/tiles.tsx VERBATIM)
-add_custom_target(${target_name}_splash DEPENDS ${CMAKE_BINARY_DIR}/generated/splash.generated.h)
-add_dependencies(${target_name} ${target_name}_splash)
-add_custom_target(${target_name}_art_check
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/export_art.py VERBATIM)
-gif2zeal(${target_name} FILES assets/tiles.gif BIT 4 COLORS 16)
-add_dependencies(${target_name}_tiles_asset ${target_name}_art_check)
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/tiles.generated.h ${CMAKE_BINARY_DIR}/generated/tiles.rle
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/gen_tiles.py ${CMAKE_BINARY_DIR}/assets/tiles.zts ${CMAKE_BINARY_DIR}/generated/tiles.generated.h ${CMAKE_BINARY_DIR}/generated/tiles.rle
-    DEPENDS ${CMAKE_BINARY_DIR}/assets/tiles.zts tools/gen_tiles.py VERBATIM)
-add_custom_target(${target_name}_tile_payload DEPENDS ${CMAKE_BINARY_DIR}/generated/tiles.generated.h ${CMAKE_BINARY_DIR}/generated/tiles.rle)
-add_dependencies(${target_name} ${target_name}_tile_payload)
-# Embedded assembly includes are invisible to the C compiler's dependency scan.
-set_source_files_properties(src/assets.c PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/generated/tiles.rle;${CMAKE_BINARY_DIR}/assets/tiles.ztp")
+target_include_directories(${target_name} PRIVATE src)
+# Splash artwork uses the SDK; compact terrain and fixed settings live in C.
+tiled2zeal(${target_name} FILES assets/splash.tmx SIZE 40x30 COMPRESSED)
+set_property(SOURCE src/splash.c APPEND PROPERTY OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/assets/splash.ztm")
+# Standard SDK conversion and compression; no game-specific tile packer.
+gif2zeal(${target_name} FILES assets/tiles.gif BIT 4 COLORS 16 COMPRESSED)
+set_source_files_properties(src/assets.c PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/assets/tiles.zts;${CMAKE_BINARY_DIR}/assets/tiles.ztp")
 zgdk_add_outputs(${target_name})
 add_custom_target(${target_name}_memory_check ALL
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/check_link_map.py ${CMAKE_SOURCE_DIR}/debug/${target_name}.map
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/export_art.py --packed ${CMAKE_BINARY_DIR}/assets/tiles.zts
     DEPENDS ${target_name}_bin VERBATIM)
