@@ -1,4 +1,4 @@
-# zeal-tank
+# zeal-tanky
 
 zeal-tank is a headquarters defence game for the Zeal 8-bit Computer, inspired by **Tank Battalion**. Drive your tank through destructible cover, intercept enemy shells and protect the base.
 
@@ -11,7 +11,7 @@ patrolling enemies, shell impacts and an eagle bunker beneath the title.
 
 | Splash Screen | Gameplay | Stage Complete |
 | - | - | - |
-| ![ZEAL TANK splash screen](./docs/editor-splash-preview.png) | ![Headquarters defence gameplay](./docs/editor-gameplay-preview.png) | ![Stage complete summary](./screenshots/5.png) |
+| ![Splash screen](./screenshots/1.png) | ![Gameplay](./screenshots/2.png) | ![Stage complete](./screenshots/3.png) |
 
 These previews come from the actual C tilemap and sprite renderer using a host graphics model; they are not emulator screenshots.
 
