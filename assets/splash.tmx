@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="11">
+  <tileset firstgid="1" source="tiles.tsx" />
+  <layer id="1" name="Brick title and fortifications" width="40" height="30">
+    <data encoding="csv">
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,14,14,9,9,9,9,14,14,14,14,14,9,14,14,14,14,14,9,9,14,14,14,9,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,9,14,9,14,9,9,9,9,9,14,9,9,9,14,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,14,9,9,14,9,9,9,9,9,14,9,9,9,14,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,14,14,14,9,9,14,14,14,14,14,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,14,9,9,9,9,14,9,9,9,9,9,14,9,9,9,14,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,14,9,9,9,9,9,14,9,9,9,9,9,14,9,9,9,14,9,14,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,14,14,14,14,14,9,14,14,14,14,14,9,14,9,9,9,14,9,14,14,14,14,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,14,14,14,14,14,9,9,14,14,14,9,9,14,9,9,9,14,9,14,9,9,9,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,9,9,9,14,9,14,14,9,9,14,9,14,9,9,14,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,9,9,9,14,9,14,14,9,9,14,9,14,9,14,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,14,14,14,14,9,14,9,14,9,14,9,14,14,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,9,9,9,14,9,14,9,9,14,14,9,14,9,14,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,9,9,9,14,9,14,9,9,14,14,9,14,9,9,14,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,9,9,9,14,9,9,9,14,9,14,9,9,9,14,9,14,9,9,9,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,14,9,9,9,9,9,9,14,14,14,14,9,9,9,9,9,9,9,14,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,14,9,9,9,9,9,9,14,9,9,14,9,9,9,9,9,9,9,14,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,9,9,9,9,9,9,14,14,9,9,9,9,9,9,14,9,9,14,9,9,9,9,9,9,9,14,14,9,9,9,9,9,14,14,9,9,
+9,9,14,14,14,14,14,14,14,14,14,14,14,14,9,9,9,9,14,14,14,14,9,9,9,9,14,14,14,14,14,14,14,14,14,14,14,14,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9
+</data>
+  </layer>
+  <objectgroup id="2" name="Text tanks and headquarters">
+    <object id="1" name="BATTALION COMMAND" x="176" y="16" width="272" height="16">
+      <text fontfamily="monospace" pixelsize="23" color="#e0e0e0">BATTALION COMMAND</text>
+    </object>
+    <object id="2" name="HEADQUARTERS DEFENCE" x="160" y="176" width="320" height="16">
+      <text fontfamily="monospace" pixelsize="23" color="#e0e0e0">HEADQUARTERS DEFENCE</text>
+    </object>
+    <object id="3" name="Start prompt" x="160" y="416" width="304" height="16">
+      <text fontfamily="monospace" pixelsize="23" color="#e0e0e0">PRESS START TO PLAY</text>
+      <properties>
+        <property name="blink" value="true" type="bool" />
+      </properties>
+    </object>
+    <object id="4" name="ENTER OR SNES START" x="160" y="448" width="304" height="16">
+      <text fontfamily="monospace" pixelsize="23" color="#e0e0e0">ENTER OR SNES START</text>
+    </object>
+    <object id="5" name="Headquarters" gid="7" x="304" y="384" width="32" height="32">
+      <properties>
+        <property name="role" value="headquarters" />
+      </properties>
+    </object>
+    <object id="6" name="Player" gid="41" x="208" y="384" width="32" height="32">
+      <properties>
+        <property name="role" value="tank" />
+        <property name="slot" value="0" type="int" />
+        <property name="heading" value="12" type="int" />
+        <property name="shot_distance" value="48" type="int" />
+        <property name="patrol" value="0" type="int" />
+      </properties>
+    </object>
+    <object id="7" name="Enemy left" gid="49" x="64" y="384" width="32" height="32">
+      <properties>
+        <property name="role" value="tank" />
+        <property name="slot" value="1" type="int" />
+        <property name="heading" value="0" type="int" />
+        <property name="shot_distance" value="80" type="int" />
+        <property name="patrol" value="15" type="int" />
+      </properties>
+    </object>
+    <object id="8" name="Enemy right" gid="65" x="544" y="384" width="32" height="32">
+      <properties>
+        <property name="role" value="tank" />
+        <property name="slot" value="2" type="int" />
+        <property name="heading" value="8" type="int" />
+        <property name="shot_distance" value="64" type="int" />
+        <property name="patrol" value="15" type="int" />
+      </properties>
+    </object>
+  </objectgroup>
+</map>

@@ -1,6 +1,6 @@
+build*/
 bin/
-*.zip
-/release
-/tmp
-assets/*.zt[spm]
+debug/
+__pycache__/
 *.tiled-session
+.DS_Store
